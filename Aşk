@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sevgilim İçin Özel Test</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #8A2BE2; /* Mor arka plan */
+      margin: 0;
+      padding: 0;
+      color: white; /* Metin rengi beyaz yapmak için */
+    }
+
+    .container {
+      text-align: center;
+      margin-top: 100px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      background-color: #ff69b4; /* Pembe buton */
+      color: white;
+      cursor: pointer;
+    }
+
+    .soru-container {
+      display: none;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      margin-top: 50px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Hoşgeldin Gizemimmm!</h1>
+    <p>Aşağıdaki butona tıklayarak teste başlayabilirsin.</p>
+    <button onclick="basla()">Teste Başla</button>
+  </div>
+
+  <div class="soru-container" id="soru-container">
+    <!-- Sorular buraya dinamik olarak eklenecek -->
+  </div>
+
+  <script>
+    const sorular = [
+      "İlişkimizdeki iletişimden ne kadar memnunsun?",
+      "Benim yanımda olsan şuan kendini nasıl hissedersin ?",
+      "Benimle zaman geçirmek seni ne kadar mutlu ediyor?",
+      "Şuan yanında olsam ve sana seni seviyorum desem nasıl hissdersin ?",
+      "Kendimizi  dinlemek için zaman ayırma fikri nasıl geliyor ?",
+      "Sana sarılsam kendini nasıl hissedersin ?",
+      "Gerçekten benle barıştığından beri kendini nasıl hissediyorsun ?",
+      "Şimdi Basabilirsin ama geri siteye gelll",
+      // Diğer soruları ekle
+    ];
+
+    const secenekler = ["Çok İyi", "İyi", "Nötr", "Kötü", "Çok Kötü"];
+
+    let soruIndex = 0;
+    let iyiCevapSayisi = 0;
+
+    function basla() {
+      const soruContainer = document.getElementById("soru-container");
+      soruContainer.style.display = "block";
+      soruGoster();
+    }
+
+    function soruGoster() {
+      const soruContainer = document.getElementById("soru-container");
+      soruContainer.innerHTML = `
+        <h2>Soru ${soruIndex + 1}: ${sorular[soruIndex]}</h2>
+        <select id="secenek">
+          ${secenekler.map(secenek => `<option value="${secenek}">${secenek}</option>`).join('')}
+        </select>
+        <button onclick="sonrakiSoru()">Sonraki Soru</button>
+        <br><br>
+        <a href="https://www.youtube.com/watch?v=L4sbDxR22z4" target="_blank" style="color: white; text-decoration: none;">En sonda bass </a>
+      `;
+    }
+
+    function sonrakiSoru() {
+      const secenek = document.getElementById("secenek").value;
+      
+      if (secenek === "Çok İyi") {
+        iyiCevapSayisi++;
+      }
+
+      soruIndex++;
+      if (soruIndex < sorular.length) {
+        soruGoster();
+      } else {
+        sonucGoster();
+      }
+    }
+
+    function sonucGoster() {
+      const soruContainer = document.getElementById("soru-container");
+      let sonucMesaji = "";
+
+      if (iyiCevapSayisi >= 4) {
+        sonucMesaji = "Her şey düzelecek. Seninle birlikteyim!";
+      } else if (iyiCevapSayisi > 0) {
+        sonucMesaji = "Hep yanındayım. Birlikte çözebiliriz.";
+      } else {
+        sonucMesaji = "Biliyorum zor zamanlardayız. Sabret, her şey düzelecek.";
+      }
+
+      soruContainer.innerHTML = `
+        <h2>Test Bitti!</h2>
+        <p>${sonucMesaji}</p>
+      `;
+    }
+  </script>
+
+</body>
+</html>
